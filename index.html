@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physique Architect | Full Plan</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #cfd8dc; display: flex; justify-content: center; padding: 20px; color: #263238; }
+        .card { background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 100%; max-width: 600px; border-top: 8px solid #455a64; }
+        h2 { color: #263238; text-align: center; margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
+        .subtitle { text-align: center; color: #78909c; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        .input-row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .input-group { flex: 1; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-size: 0.75rem; font-weight: 700; color: #546e7a; text-transform: uppercase; }
+        input, select { width: 100%; padding: 12px; border: 2px solid #eceff1; border-radius: 8px; box-sizing: border-box; background: #fcfcfc; font-size: 1rem; color: #263238; }
+        
+        /* Info Icon Styles */
+        .info-link { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #78909c; color: white; border-radius: 50%; font-size: 11px; font-weight: bold; text-decoration: none; margin-left: 5px; vertical-align: middle; transition: 0.2s; }
+        .info-link:hover { background: #455a64; transform: scale(1.1); }
+
+        .status-box { background: #37474f; color: #eceff1; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #81c784; }
+        
+        .meal-section { margin-top: 25px; border-top: 2px solid #eceff1; padding-top: 20px; }
+        .meal-category { background: #455a64; color: white; padding: 8px 15px; border-radius: 6px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
+        
+        .meal-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 12px; }
+        .meal-title { font-weight: 800; color: #37474f; margin-bottom: 5px; display: block; }
+        .ingredients { font-size: 0.95rem; color: #546e7a; line-height: 1.4; }
+        .qty { color: #2d5a27; font-weight: bold; border-bottom: 1px dashed #81c784; }
+
+        .dining-out { background: #fff3e0; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 0.9rem; }
+        .btn-link { color: #81c784; text-decoration: none; cursor: pointer; background: #263238; border-radius: 4px; padding: 3px 10px; font-size: 0.7rem; border: 1px solid #81c784; margin-left: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Physique Architect</h2>
+    <div id="greeting" class="subtitle">Complete Meal Management System</div>
+    
+    <div id="statusReport" class="status-box">Awaiting your physical metrics...</div>
+
+    <div class="input-group">
+        <label>Your Name</label>
+        <input type="text" id="userName" placeholder="Architect Name" oninput="runApp()">
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <label>Current Weight (lbs)</label>
+            <input type="number" id="weight" oninput="runApp()">
+        </div>
+        <div class="input-group">
+            <label>Goal Weight (lbs)</label>
+            <input type="number" id="goalWeight" oninput="runApp()">
+        </div>
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <label>Height (Ft/In)</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="hFt" placeholder="Ft" oninput="runApp()">
+                <input type="number" id="hIn" placeholder="In" oninput="runApp()">
+            </div>
+        </div>
+        <div class="input-group">
+            <label>Age</label>
+            <input type="number" id="age" oninput="runApp()">
+        </div>
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <label>Activity Level</label>
+            <select id="activity" onchange="runApp()">
+                <option value="1.2">Baseline (0 days/week)</option>
+                <option value="1.375">Light (1–2 days/week)</option>
+                <option value="1.55" selected>Moderate (3–5 days/week)</option>
+                <option value="1.725">High (6–7 days/week)</option>
+                <option value="1.9">Elite (2x daily)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="input-row" style="background: #f0f4f7; padding: 15px; border-radius: 8px; border: 1px solid #cfd8dc;">
+        <div class="input-group">
+            <label>
+                Protein Strategy
+                <a href="https://www.healthline.com/nutrition/how-protein-can-help-you-lose-weight" target="_blank" class="info-link" title="Why protein is vital for weight management">!</a>
+            </label>
+            <select id="proteinMode" onchange="runApp()">
+                <option value="auto">Auto (1:1 Ratio per lb)</option>
+                <option value="custom">Manual Entry</option>
+            </select>
+        </div>
+        <div class="input-group" id="customProtGroup" style="display:none;">
+            <label>Custom Protein (g)</label>
+            <input type="number" id="customProtein" placeholder="e.g. 200" oninput="runApp()">
+        </div>
+    </div>
+
+    <div id="mealPlanContainer"></div>
+</div>
+
+<script>
+window.onload = function() {
+    ['userName', 'weight', 'goalWeight', 'hFt', 'hIn', 'age', 'activity', 'proteinMode', 'customProtein'].forEach(f => {
+        const val = localStorage.getItem(f);
+        if (val) document.getElementById(f).value = val;
+    });
+    runApp();
+};
+
+function setGoal(val) {
+    document.getElementById('goalWeight').value = val;
+    runApp();
+}
+
+function runApp() {
+    const fields = ['userName', 'weight', 'goalWeight', 'hFt', 'hIn', 'age', 'activity', 'proteinMode', 'customProtein'];
+    const v = {};
+    fields.forEach(f => {
+        v[f] = document.getElementById(f).value;
+        localStorage.setItem(f, v[f]); 
+    });
+
+    // Show/Hide Custom Protein input
+    document.getElementById('customProtGroup').style.display = (v.proteinMode === 'custom') ? 'block' : 'none';
+
+    const weight = parseFloat(v.weight);
+    const goal = parseFloat(v.goalWeight);
+    const age = parseFloat(v.age);
+    const hFt = parseFloat(v.hFt);
+    const hIn = parseFloat(v.hIn);
+    const act = parseFloat(v.activity);
+
+    if (weight > 0 && hFt > 0 && age > 0) {
+        const totalInches = (hFt * 12) + (hIn || 0);
+        const healthyBaseline = Math.round(22 * (totalInches * totalInches) / 703);
+        const bmr = (10 * (weight / 2.205)) + (6.25 * (totalInches * 2.54)) - (5 * age) + 5;
+        const tdee = Math.round(bmr * act);
+
+        let phase = "Maintenance";
+        let targetCals = tdee;
+        if (goal < weight) { phase = "Fat Loss"; targetCals = tdee - 500; }
+        else if (goal > weight) { phase = "Muscle Gain"; targetCals = tdee + 300; }
+
+        if (v.userName) document.getElementById('greeting').innerText = `Architect: ${v.userName}`;
+        
+        // Protein Logic Selection
+        let protTotal = (v.proteinMode === 'auto') ? (goal || weight) : parseFloat(v.customProtein);
+        if (!protTotal) protTotal = weight; // Fallback
+
+        document.getElementById('statusReport').innerHTML = `
+            Healthy Baseline: <strong>${healthyBaseline} lbs</strong> <button class="btn-link" onclick="setGoal(${healthyBaseline})">ADOPT</button><br>
+            Daily Target: <strong>${targetCals} calories</strong><br>
+            Protein Target: <strong>${protTotal}g</strong> (${v.proteinMode === 'auto' ? '1:1 Ratio' : 'Custom'})
+        `;
+
+        // Macro Calculations
+        const fatTotal = (targetCals * 0.25) / 9;
+        const carbTotal = (targetCals - (protTotal * 4) - (fatTotal * 9)) / 4;
+        const pM = (protTotal / 4).toFixed(0);
+        const cM = (carbTotal / 4).toFixed(0);
+
+        // Conversion math
+        const riceG = (cM / 0.28).toFixed(0);
+        const potG = (cM / 0.20).toFixed(0);
+        const oatG = (cM / 0.60).toFixed(0);
+        const chickenG = (pM / 0.31).toFixed(0);
+        const beefG = (pM / 0.26).toFixed(0);
+        const eggCount = (pM / 6).toFixed(1);
+
+        document.getElementById('mealPlanContainer').innerHTML = `
+            <div class="meal-section">
+                <div class="meal-category">Breakfast Options</div>
+                <div class="meal-card">
+                    <span class="meal-title">1. Classic Power Start</span>
+                    <span class="ingredients"><span class="qty">${eggCount}</span> Large Eggs + <span class="qty">${oatG}g</span> Dry Oats</span>
+                </div>
+                <div class="meal-card">
+                    <span class="meal-title">2. Quick Yogurt Bowl</span>
+                    <span class="ingredients"><span class="qty">${(pM/10*100).toFixed(0)}g</span> Non-fat Greek Yogurt + <span class="qty">${(cM/0.15).toFixed(0)}g</span> Berries</span>
+                </div>
+                <div class="meal-card">
+                    <span class="meal-title">3. Architect Pancakes</span>
+                    <span class="ingredients"><span class="qty">1.5 scoops</span> Whey + <span class="qty">${(cM/0.25).toFixed(0)}g</span> Mashed Banana</span>
+                </div>
+
+                <div class="meal-category">Lunch Options (Great for Batch Cooking)</div>
+                <div class="meal-card">
+                    <span class="meal-title">1. Chicken & Rice Standard</span>
+                    <span class="ingredients"><span class="qty">${chickenG}g</span> Cooked Chicken + <span class="qty">${riceG}g</span> Cooked Rice + Green Veggies</span>
+                </div>
+                <div class="meal-card">
+                    <span class="meal-title">2. Lean Beef & Potato</span>
+                    <span class="ingredients"><span class="qty">${beefG}g</span> Extra Lean Beef + <span class="qty">${potG}g</span> Potato/Yam</span>
+                </div>
+
+                <div class="meal-category">Dinner Options</div>
+                <div class="meal-card">
+                    <span class="meal-title">1. Lean & Green (Fish)</span>
+                    <span class="ingredients"><span class="qty">${(pM/0.20).toFixed(0)}g</span> White Fish + <span class="qty">${riceG}g</span> Rice + Asparagus</span>
+                </div>
+                <div class="meal-card">
+                    <span class="meal-title">2. Turkey Stir-fry</span>
+                    <span class="ingredients"><span class="qty">${beefG}g</span> Ground Turkey + <span class="qty">${riceG}g</span> Rice + Peppers</span>
+                </div>
+                <div class="meal-card">
+                    <span class="meal-title">3. Steak & Baked Potato</span>
+                    <span class="ingredients"><span class="qty">${beefG}g</span> Sirloin Steak + <span class="qty">${potG}g</span> Potato + Side Salad</span>
+                </div>
+
+                <div class="dining-out">
+                    <strong>Tonight's Dining Out Strategy:</strong><br>
+                    Choose Lean Protein (Grilled) + Double Veggies + Small starch side. Avoid sauces and bread baskets.
+                </div>
+            </div>
+        `;
+    }
+}
+</script>
+
+</body>
+</html>
