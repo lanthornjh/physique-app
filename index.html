@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physique Architect | Chef Edition</title>
+    <title>Physique Architect | Complete Edition</title>
     <style>
         :root { --primary: #455a64; --accent: #81c784; --bg: #cfd8dc; --text: #263238; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 15px; color: var(--text); }
@@ -19,9 +19,14 @@
 
         /* Input Styling */
         .input-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .input-group { flex: 1; min-width: 120px; }
+        .input-group { flex: 1; min-width: 100px; }
         label { display: block; font-size: 0.65rem; font-weight: 800; color: #546e7a; text-transform: uppercase; margin-bottom: 3px; }
         input, select { width: 100%; padding: 10px; border: 2px solid #eceff1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
+        
+        /* Checkbox Styling */
+        .checkbox-group { display: flex; align-items: center; gap: 10px; background: #f0f4f7; padding: 10px; border-radius: 8px; margin-top: 5px; }
+        .checkbox-group input { width: auto; margin: 0; cursor: pointer; }
+        .checkbox-group label { margin: 0; cursor: pointer; font-size: 0.75rem; color: var(--primary); }
 
         /* The Exclamation Point Link */
         .info-link {
@@ -35,12 +40,17 @@
         .status-box { background: #37474f; color: #eceff1; padding: 18px; border-radius: 10px; margin: 20px 0; border-left: 5px solid var(--accent); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; }
         .macro-val { font-weight: 800; color: var(--accent); }
 
-        .btn-main { width: 100%; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 20px; text-transform: uppercase; transition: 0.2s; }
+        /* Action Toolbar (Shuffle + Unit) */
+        .action-toolbar { display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch; }
+        .unit-select { flex: 1; border: 2px solid #eceff1; border-radius: 8px; font-weight: 700; color: #546e7a; cursor: pointer; }
+        .btn-main { flex: 2; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
         
         /* Meal Cards */
         .cat-label { margin-top: 20px; font-weight: 800; color: var(--primary); text-transform: uppercase; font-size: 0.8rem; }
         .meal-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 18px; margin-top: 10px; }
         .meal-card.locked { border: 2px solid var(--accent); background: #f1f8f1; }
+        .meal-card.supplement { background: #e8f5e9; border: 1px dashed var(--accent); }
+        
         .meal-title { font-weight: 800; font-size: 1.05rem; color: #37474f; border-bottom: 2px solid #eceff1; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; }
         
         .ing-box { font-size: 0.9rem; margin-bottom: 4px; }
@@ -54,7 +64,7 @@
         .flavor-guide { background: #37474f; color: white; padding: 15px; border-radius: 10px; margin-top: 30px; font-size: 0.8rem; }
         .flavor-guide h4 { margin-top: 0; color: var(--accent); text-transform: uppercase; }
 
-        @media print { .export-tools, .btn-main, .controls, .input-row, select, .info-link { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
+        @media print { .export-tools, .action-toolbar, .controls, .input-row, select, .info-link, .checkbox-group { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
     </style>
 </head>
 <body>
@@ -67,17 +77,19 @@
     </div>
 
     <h2>Physique Architect</h2>
-    <div class="subtitle">Chef Edition: Integrated Saving & Multi-Unit Prep</div>
+    <div class="subtitle">Complete Edition: Height, Custom Shakes & Precision</div>
 
     <div class="input-row">
         <div class="input-group"><label>Name</label><input type="text" id="userName" placeholder="Architect" oninput="updateAll()"></div>
-        <div class="input-group"><label>Weight (lbs)</label><input type="number" id="weight" placeholder="180" oninput="updateAll()"></div>
-        <div class="input-group"><label>Goal (lbs)</label><input type="number" id="goal" placeholder="170" oninput="updateAll()"></div>
+        <div class="input-group"><label>Age</label><input type="number" id="age" placeholder="30" oninput="updateAll()"></div>
+        <div class="input-group"><label>Height (Ft)</label><input type="number" id="ft" placeholder="5" oninput="updateAll()"></div>
+        <div class="input-group"><label>Height (In)</label><input type="number" id="in" placeholder="10" oninput="updateAll()"></div>
     </div>
 
     <div class="input-row">
-        <div class="input-group"><label>Age</label><input type="number" id="age" placeholder="30" oninput="updateAll()"></div>
-        <div class="input-group">
+        <div class="input-group"><label>Weight (lbs)</label><input type="number" id="weight" placeholder="180" oninput="updateAll()"></div>
+        <div class="input-group"><label>Goal (lbs)</label><input type="number" id="goal" placeholder="170" oninput="updateAll()"></div>
+        <div class="input-group" style="flex:2">
             <label>Activity Level</label>
             <select id="activity" onchange="updateAll()">
                 <option value="1.2">Baseline (0 days/week)</option>
@@ -87,17 +99,10 @@
                 <option value="1.9">Elite (2x daily)</option>
             </select>
         </div>
-        <div class="input-group">
-            <label>Measurement Unit</label>
-            <select id="unitMode" onchange="updateAll()">
-                <option value="grams">Grams (Weight)</option>
-                <option value="cups">Cups / Pieces (Volume)</option>
-            </select>
-        </div>
     </div>
 
     <div class="input-row">
-        <div class="input-group">
+        <div class="input-group" style="flex: 1;">
             <label>
                 Protein Target
                 <a href="https://www.healthline.com/nutrition/how-much-protein-per-day" target="_blank" class="info-link" title="Read about protein importance">!</a>
@@ -108,14 +113,31 @@
             </select>
         </div>
         <div class="input-group" id="customPContainer" style="display:none;">
-            <label>Custom Amount (g)</label>
+            <label>Custom Total (g)</label>
             <input type="number" id="customP" placeholder="e.g. 200" oninput="updateAll()">
         </div>
+        <div class="input-group" style="display: flex; align-items: flex-end;">
+             <div class="checkbox-group">
+                 <input type="checkbox" id="addShake" onchange="updateAll()">
+                 <label for="addShake">Include Protein Shake?</label>
+             </div>
+        </div>
+    </div>
+
+    <div class="input-row" id="shakeMacroContainer" style="display:none; background: #e8f5e9; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+        <div class="input-group"><label>Shake Protein (g)</label><input type="number" id="shakeP" value="25" oninput="updateAll()"></div>
+        <div class="input-group"><label>Shake Calories</label><input type="number" id="shakeCal" value="120" oninput="updateAll()"></div>
     </div>
 
     <div id="statusReport" class="status-box">Enter your stats to build your custom menu.</div>
 
-    <button class="btn-main" onclick="randomizeAll()">Shuffle Unlocked Meals</button>
+    <div class="action-toolbar">
+        <select id="unitMode" class="unit-select" onchange="updateAll()">
+            <option value="grams">📏 Grams (Scale)</option>
+            <option value="cups">🥤 Cups (Volume)</option>
+        </select>
+        <button class="btn-main" onclick="randomizeAll()">Shuffle Unlocked Meals</button>
+    </div>
     
     <div id="menuContainer"></div>
 
@@ -151,44 +173,69 @@ let state = { b: [0, 1], l: [0, 1], d: [0, 1, 2], locks: { b: [false, false], l:
 function updateAll() {
     const w = parseFloat(document.getElementById('weight').value) || 0;
     const g = parseFloat(document.getElementById('goal').value) || 0;
-    const a = parseFloat(document.getElementById('age').value) || 0;
+    const age = parseFloat(document.getElementById('age').value) || 30;
+    const ft = parseFloat(document.getElementById('ft').value) || 0;
+    const inch = parseFloat(document.getElementById('in').value) || 0;
     const act = parseFloat(document.getElementById('activity').value);
     const unit = document.getElementById('unitMode').value;
     const pMode = document.getElementById('pMode').value;
+    const hasShake = document.getElementById('addShake').checked;
     
-    // Toggle Custom Protein Input Visibility
     document.getElementById('customPContainer').style.display = (pMode === 'custom') ? 'block' : 'none';
+    document.getElementById('shakeMacroContainer').style.display = hasShake ? 'flex' : 'none';
 
     if (w > 0) {
-        const bmr = (10 * (w / 2.205)) + (6.25 * 177) - (5 * a) + 5;
+        const heightCm = (ft * 30.48) + (inch * 2.54) || 178;
+        const bmr = (10 * (w / 2.205)) + (6.25 * heightCm) - (5 * age) + 5;
         const tdee = Math.round(bmr * act);
-        let target = tdee;
-        if (g > 0 && g < w) target -= 500;
-        else if (g > w) target += 300;
+        
+        let targetCal = tdee;
+        if (g > 0 && g < w) targetCal -= 500;
+        else if (g > w) targetCal += 300;
 
-        // Protein Calculation Logic
-        let p;
-        if (pMode === 'custom') {
-            p = parseFloat(document.getElementById('customP').value) || w;
-        } else {
-            p = g || w; // Default Auto is 1g per lb of goal weight (or current if no goal)
+        let totalP = (pMode === 'custom') ? (parseFloat(document.getElementById('customP').value) || w) : (g || w);
+
+        let foodP = totalP;
+        let foodCal = targetCal;
+        let sP = 0, sCal = 0;
+
+        if (hasShake) {
+            sP = parseFloat(document.getElementById('shakeP').value) || 0;
+            sCal = parseFloat(document.getElementById('shakeCal').value) || 0;
+            foodP -= sP;
+            foodCal -= sCal;
         }
 
-        const f = (target * 0.25) / 9;
-        const c = (target - (p * 4) - (f * 9)) / 4;
+        const fat = (targetCal * 0.25) / 9;
+        const totalC = (targetCal - (totalP * 4) - (fat * 9)) / 4;
+        
+        // Subtract approximate carb value of shake (standard isolate is ~2g)
+        let foodC = hasShake ? totalC - 2 : totalC;
 
         document.getElementById('statusReport').innerHTML = `
-            <div>CALORIES: <span class="macro-val">${target}</span></div>
-            <div>PROTEIN: <span class="macro-val">${Math.round(p)}g</span></div>
-            <div>CARBS: <span class="macro-val">${Math.round(c)}g</span></div>
-            <div>FAT: <span class="macro-val">${Math.round(f)}g</span></div>
+            <div>CALORIES: <span class="macro-val">${targetCal}</span></div>
+            <div>PROTEIN: <span class="macro-val">${Math.round(totalP)}g</span></div>
+            <div>CARBS: <span class="macro-val">${Math.round(totalC)}g</span></div>
+            <div>FAT: <span class="macro-val">${Math.round(fat)}g</span></div>
         `;
-        renderGrid(p/4, c/4, unit);
+        renderGrid(foodP/4, foodC/4, unit, hasShake, sP, sCal);
     }
 }
 
-function renderGrid(p, c, unit) {
+function renderGrid(p, c, unit, hasShake, sP, sCal) {
     let html = '';
+    
+    if (hasShake) {
+        html += `
+            <div class="cat-label">Daily Supplement</div>
+            <div class="meal-card supplement">
+                <div class="meal-title"><span>Protein Shake</span><span>✅</span></div>
+                <div class="ing-box"><b>Logged:</b> ${sP}g Protein | ${sCal} Calories</div>
+                <div class="prep-box" style="font-size:0.75rem">Food portions below have been reduced to accommodate these supplement macros.</div>
+            </div>
+        `;
+    }
+
     const sections = [
         {id:'b', label:'Breakfast Options', key:'breakfast', list:state.b},
         {id:'l', label:'Lunch Options', key:'lunch', list:state.l},
@@ -200,16 +247,12 @@ function renderGrid(p, c, unit) {
         sec.list.forEach((dbIdx, i) => {
             const meal = db[sec.key][dbIdx];
             const locked = state.locks[sec.id][i];
-            
             let pDisp = unit === 'grams' ? `${Math.round(p/meal.pD)}g` : convertToCups(p, meal.p);
             let cDisp = unit === 'grams' ? `${Math.round(c/meal.cD)}g` : convertToCups(c, meal.c);
 
             html += `
                 <div class="meal-card ${locked ? 'locked' : ''}">
-                    <div class="meal-title">
-                        <span>${meal.name}</span>
-                        <span>${locked ? '🔒' : ''}</span>
-                    </div>
+                    <div class="meal-title"><span>${meal.name}</span><span>${locked ? '🔒' : ''}</span></div>
                     <div class="ing-box"><b>Protein:</b> <span class="qty">${pDisp}</span> ${meal.p}</div>
                     <div class="ing-box"><b>Carb:</b> <span class="qty">${cDisp}</span> ${meal.c}</div>
                     <div class="ing-box"><b>Veggie:</b> <span class="qty">1.5 Cups</span> ${meal.v}</div>
@@ -218,15 +261,14 @@ function renderGrid(p, c, unit) {
                         <button class="btn-c" onclick="swapSlot('${sec.id}', ${i})">↻ Swap</button>
                         <button class="btn-c ${locked ? 'l-active' : ''}" onclick="toggleLock('${sec.id}', ${i})">${locked ? 'Unlock' : 'Save'}</button>
                     </div>
-                </div>
-            `;
+                </div>`;
         });
     });
     document.getElementById('menuContainer').innerHTML = html;
 }
 
 function convertToCups(grams, type) {
-    if (type.includes("Eggs")) return `${Math.round(grams/6)} Large`;
+    if (type.includes("Eggs")) return `${Math.max(1, Math.round(grams/6))} Large`;
     if (type.includes("Rice")) return `${(grams/28/5.5).toFixed(1)} Cups`;
     if (type.includes("Oats")) return `${(grams/0.4/80).toFixed(1)} Cups`;
     if (type.includes("Chicken") || type.includes("Beef") || type.includes("Steak") || type.includes("Turkey")) return `${(grams/0.31/140).toFixed(1)} Cups (Cooked)`;
