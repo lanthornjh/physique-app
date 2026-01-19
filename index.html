@@ -23,6 +23,14 @@
         label { display: block; font-size: 0.65rem; font-weight: 800; color: #546e7a; text-transform: uppercase; margin-bottom: 3px; }
         input, select { width: 100%; padding: 10px; border: 2px solid #eceff1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
 
+        /* The Exclamation Point Link */
+        .info-link {
+            display: inline-block; width: 14px; height: 14px; background: #90a4ae; color: white;
+            border-radius: 50%; text-align: center; line-height: 14px; font-size: 10px;
+            text-decoration: none; margin-left: 4px; cursor: pointer;
+        }
+        .info-link:hover { background: var(--accent); }
+
         /* Macro Status Box */
         .status-box { background: #37474f; color: #eceff1; padding: 18px; border-radius: 10px; margin: 20px 0; border-left: 5px solid var(--accent); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; }
         .macro-val { font-weight: 800; color: var(--accent); }
@@ -46,7 +54,7 @@
         .flavor-guide { background: #37474f; color: white; padding: 15px; border-radius: 10px; margin-top: 30px; font-size: 0.8rem; }
         .flavor-guide h4 { margin-top: 0; color: var(--accent); text-transform: uppercase; }
 
-        @media print { .export-tools, .btn-main, .controls, .input-row, select { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
+        @media print { .export-tools, .btn-main, .controls, .input-row, select, .info-link { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
     </style>
 </head>
 <body>
@@ -85,6 +93,23 @@
                 <option value="grams">Grams (Weight)</option>
                 <option value="cups">Cups / Pieces (Volume)</option>
             </select>
+        </div>
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <label>
+                Protein Target
+                <a href="https://www.healthline.com/nutrition/how-much-protein-per-day" target="_blank" class="info-link" title="Read about protein importance">!</a>
+            </label>
+            <select id="pMode" onchange="updateAll()">
+                <option value="auto">Auto (1g per lb)</option>
+                <option value="custom">Manual Entry</option>
+            </select>
+        </div>
+        <div class="input-group" id="customPContainer" style="display:none;">
+            <label>Custom Amount (g)</label>
+            <input type="number" id="customP" placeholder="e.g. 200" oninput="updateAll()">
         </div>
     </div>
 
@@ -129,7 +154,11 @@ function updateAll() {
     const a = parseFloat(document.getElementById('age').value) || 0;
     const act = parseFloat(document.getElementById('activity').value);
     const unit = document.getElementById('unitMode').value;
+    const pMode = document.getElementById('pMode').value;
     
+    // Toggle Custom Protein Input Visibility
+    document.getElementById('customPContainer').style.display = (pMode === 'custom') ? 'block' : 'none';
+
     if (w > 0) {
         const bmr = (10 * (w / 2.205)) + (6.25 * 177) - (5 * a) + 5;
         const tdee = Math.round(bmr * act);
@@ -137,7 +166,14 @@ function updateAll() {
         if (g > 0 && g < w) target -= 500;
         else if (g > w) target += 300;
 
-        const p = g || w;
+        // Protein Calculation Logic
+        let p;
+        if (pMode === 'custom') {
+            p = parseFloat(document.getElementById('customP').value) || w;
+        } else {
+            p = g || w; // Default Auto is 1g per lb of goal weight (or current if no goal)
+        }
+
         const f = (target * 0.25) / 9;
         const c = (target - (p * 4) - (f * 9)) / 4;
 
