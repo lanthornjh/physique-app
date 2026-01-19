@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physique Architect | Complete Edition</title>
+    <title>Physique Architect | Ultimate Edition</title>
     <style>
         :root { --primary: #455a64; --accent: #81c784; --bg: #cfd8dc; --text: #263238; }
         body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 15px; color: var(--text); }
@@ -12,59 +12,43 @@
         h2 { text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #78909c; font-size: 0.85rem; margin-bottom: 20px; }
         
-        /* Export Toolbar */
         .export-tools { display: flex; gap: 8px; margin-bottom: 20px; }
         .btn-tool { flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
-        .btn-tool:active { transform: scale(0.98); }
 
-        /* Input Styling */
         .input-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .input-group { flex: 1; min-width: 100px; }
+        .input-group { flex: 1; min-width: 110px; }
         label { display: block; font-size: 0.65rem; font-weight: 800; color: #546e7a; text-transform: uppercase; margin-bottom: 3px; }
         input, select { width: 100%; padding: 10px; border: 2px solid #eceff1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
         
-        /* Checkbox Styling */
-        .checkbox-group { display: flex; align-items: center; gap: 10px; background: #f0f4f7; padding: 10px; border-radius: 8px; margin-top: 5px; }
-        .checkbox-group input { width: auto; margin: 0; cursor: pointer; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; background: #f0f4f7; padding: 10px; border-radius: 8px; margin-top: 5px; height: 42px; box-sizing: border-box; }
+        .checkbox-group input { width: auto; cursor: pointer; margin: 0; }
         .checkbox-group label { margin: 0; cursor: pointer; font-size: 0.75rem; color: var(--primary); }
 
-        /* The Exclamation Point Link */
-        .info-link {
-            display: inline-block; width: 14px; height: 14px; background: #90a4ae; color: white;
-            border-radius: 50%; text-align: center; line-height: 14px; font-size: 10px;
-            text-decoration: none; margin-left: 4px; cursor: pointer;
-        }
-        .info-link:hover { background: var(--accent); }
+        .info-link { display: inline-block; width: 14px; height: 14px; background: #90a4ae; color: white; border-radius: 50%; text-align: center; line-height: 14px; font-size: 10px; text-decoration: none; margin-left: 4px; }
 
-        /* Macro Status Box */
         .status-box { background: #37474f; color: #eceff1; padding: 18px; border-radius: 10px; margin: 20px 0; border-left: 5px solid var(--accent); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; }
         .macro-val { font-weight: 800; color: var(--accent); }
 
-        /* Action Toolbar (Shuffle + Unit) */
         .action-toolbar { display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch; }
         .unit-select { flex: 1; border: 2px solid #eceff1; border-radius: 8px; font-weight: 700; color: #546e7a; cursor: pointer; }
-        .btn-main { flex: 2; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-main { flex: 2; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
         
-        /* Meal Cards */
-        .cat-label { margin-top: 20px; font-weight: 800; color: var(--primary); text-transform: uppercase; font-size: 0.8rem; }
+        .cat-label { margin-top: 25px; font-weight: 800; color: var(--primary); text-transform: uppercase; font-size: 0.85rem; border-left: 4px solid var(--accent); padding-left: 10px; }
         .meal-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 18px; margin-top: 10px; }
         .meal-card.locked { border: 2px solid var(--accent); background: #f1f8f1; }
         .meal-card.supplement { background: #e8f5e9; border: 1px dashed var(--accent); }
         
         .meal-title { font-weight: 800; font-size: 1.05rem; color: #37474f; border-bottom: 2px solid #eceff1; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; }
-        
         .ing-box { font-size: 0.9rem; margin-bottom: 4px; }
-        .prep-box { font-size: 0.8rem; background: #eceff1; padding: 12px; border-radius: 6px; color: #546e7a; font-style: italic; margin-top: 12px; line-height: 1.4; border-left: 3px solid #cfd8dc; }
         .qty { color: #2d5a27; font-weight: 800; }
+        .prep-box { font-size: 0.8rem; background: #eceff1; padding: 12px; border-radius: 6px; color: #546e7a; font-style: italic; margin-top: 12px; border-left: 3px solid #cfd8dc; line-height: 1.4; }
         
         .controls { display: flex; gap: 8px; margin-top: 12px; }
         .btn-c { flex: 1; background: white; border: 1px solid #cfd8dc; padding: 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
         .btn-c.l-active { background: var(--accent); color: white; border-color: var(--accent); }
 
         .flavor-guide { background: #37474f; color: white; padding: 15px; border-radius: 10px; margin-top: 30px; font-size: 0.8rem; }
-        .flavor-guide h4 { margin-top: 0; color: var(--accent); text-transform: uppercase; }
-
-        @media print { .export-tools, .action-toolbar, .controls, .input-row, select, .info-link, .checkbox-group { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
+        @media print { .export-tools, .action-toolbar, .controls, .input-row, .checkbox-group { display: none !important; } .card { box-shadow: none; border: none; } }
     </style>
 </head>
 <body>
@@ -77,106 +61,121 @@
     </div>
 
     <h2>Physique Architect</h2>
-    <div class="subtitle">Complete Edition: Height, Custom Shakes & Precision</div>
+    <div class="subtitle">Ultimate Edition: Full Plan with Custom Logic</div>
 
     <div class="input-row">
         <div class="input-group"><label>Name</label><input type="text" id="userName" placeholder="Architect" oninput="updateAll()"></div>
-        <div class="input-group"><label>Age</label><input type="number" id="age" placeholder="30" oninput="updateAll()"></div>
-        <div class="input-group"><label>Height (Ft)</label><input type="number" id="ft" placeholder="5" oninput="updateAll()"></div>
-        <div class="input-group"><label>Height (In)</label><input type="number" id="in" placeholder="10" oninput="updateAll()"></div>
+        <div class="input-group">
+            <label>Gender</label>
+            <select id="gender" onchange="updateAll()">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div class="input-group"><label>Age</label><input type="number" id="age" value="30" oninput="updateAll()"></div>
+        <div class="input-group"><label>Ft</label><input type="number" id="ft" value="5" oninput="updateAll()"></div>
+        <div class="input-group"><label>In</label><input type="number" id="in" value="10" oninput="updateAll()"></div>
     </div>
 
     <div class="input-row">
-        <div class="input-group"><label>Weight (lbs)</label><input type="number" id="weight" placeholder="180" oninput="updateAll()"></div>
-        <div class="input-group"><label>Goal (lbs)</label><input type="number" id="goal" placeholder="170" oninput="updateAll()"></div>
+        <div class="input-group"><label>Weight (lbs)</label><input type="number" id="weight" value="180" oninput="updateAll()"></div>
+        <div class="input-group"><label>Goal (lbs)</label><input type="number" id="goal" value="170" oninput="updateAll()"></div>
+        <div class="input-group"><label>Weeks</label><input type="number" id="weeks" value="10" oninput="updateAll()"></div>
         <div class="input-group" style="flex:2">
-            <label>Activity Level</label>
+            <label>Activity</label>
             <select id="activity" onchange="updateAll()">
-                <option value="1.2">Baseline (0 days/week)</option>
-                <option value="1.375">Light (1-2 days/week)</option>
-                <option value="1.55" selected>Moderate (3-5 days/week)</option>
-                <option value="1.725">High (6-7 days/week)</option>
+                <option value="1.2">Baseline (0 days)</option>
+                <option value="1.375">Light (1-2 days)</option>
+                <option value="1.55" selected>Moderate (3-5 days)</option>
+                <option value="1.725">High (6-7 days)</option>
                 <option value="1.9">Elite (2x daily)</option>
             </select>
         </div>
     </div>
 
     <div class="input-row">
-        <div class="input-group" style="flex: 1;">
-            <label>
-                Protein Target
-                <a href="https://www.healthline.com/nutrition/how-much-protein-per-day" target="_blank" class="info-link" title="Read about protein importance">!</a>
-            </label>
+        <div class="input-group">
+            <label>Protein Target <a href="#" class="info-link">!</a></label>
             <select id="pMode" onchange="updateAll()">
-                <option value="auto">Auto (1g per lb)</option>
+                <option value="auto">Auto (1g/lb)</option>
                 <option value="custom">Manual Entry</option>
             </select>
         </div>
         <div class="input-group" id="customPContainer" style="display:none;">
             <label>Custom Total (g)</label>
-            <input type="number" id="customP" placeholder="e.g. 200" oninput="updateAll()">
+            <input type="number" id="customP" value="180" oninput="updateAll()">
         </div>
-        <div class="input-group" style="display: flex; align-items: flex-end;">
+        <div class="input-group">
              <div class="checkbox-group">
                  <input type="checkbox" id="addShake" onchange="updateAll()">
-                 <label for="addShake">Include Protein Shake?</label>
+                 <label for="addShake">Add Shake?</label>
              </div>
         </div>
     </div>
 
-    <div class="input-row" id="shakeMacroContainer" style="display:none; background: #e8f5e9; padding: 10px; border-radius: 8px; margin-bottom: 15px;">
+    <div class="input-row" id="shakeMacroContainer" style="display:none; background: #f1f8f1; padding: 10px; border-radius: 8px; border: 1px solid var(--accent);">
         <div class="input-group"><label>Shake Protein (g)</label><input type="number" id="shakeP" value="25" oninput="updateAll()"></div>
         <div class="input-group"><label>Shake Calories</label><input type="number" id="shakeCal" value="120" oninput="updateAll()"></div>
     </div>
 
-    <div id="statusReport" class="status-box">Enter your stats to build your custom menu.</div>
+    <div id="statusReport" class="status-box">Enter stats to view report.</div>
 
     <div class="action-toolbar">
         <select id="unitMode" class="unit-select" onchange="updateAll()">
-            <option value="grams">📏 Grams (Scale)</option>
-            <option value="cups">🥤 Cups (Volume)</option>
+            <option value="grams">📏 Grams</option>
+            <option value="cups">🥤 Cups</option>
         </select>
-        <button class="btn-main" onclick="randomizeAll()">Shuffle Unlocked Meals</button>
+        <button class="btn-main" onclick="randomizeAll()">Shuffle Unlocked</button>
     </div>
     
     <div id="menuContainer"></div>
 
     <div class="flavor-guide">
-        <h4>Free Flavor Guide (Zero Calorie)</h4>
-        <b>Mexican:</b> Cumin, Smoked Paprika, Garlic Powder, Lime.<br>
-        <b>Italian:</b> Dried Oregano, Basil, Red Pepper Flakes, Balsamic.<br>
-        <b>Asian:</b> Ground Ginger, Garlic, Soy Sauce (Low Sodium), Sriracha.
+        <h4>Flavor Guide</h4>
+        <b>Mexican:</b> Cumin, Smoked Paprika, Lime. | <b>Italian:</b> Oregano, Basil, Red Pepper. | <b>Asian:</b> Ginger, Garlic, Soy.
     </div>
 </div>
 
 <script>
 const db = {
     breakfast: [
-        { name: "Power Oats & Eggs", p: "Whole Eggs", c: "Dry Oats", v: "Spinach", prep: "Scramble the eggs with salt/pepper. Prepare oats with water and a dash of cinnamon. Serve separately or mix for a savory oat bowl.", pD: 6, cD: 0.4 },
-        { name: "Greek Yogurt Bowl", p: "Greek Yogurt", c: "Mixed Berries", v: "Flax Seeds (1 tbsp)", prep: "Measure yogurt into a bowl. Top with fresh or thawed berries. Stir in flax seeds. Use zero-cal Stevia if extra sweetness is needed.", pD: 0.1, cD: 0.15 },
-        { name: "Architect Pancakes", p: "Whey Protein", c: "Mashed Banana", v: "Egg Whites", prep: "Blend the protein powder, banana, and egg whites. Pour onto a non-stick skillet over medium heat. Flip when bubbles form.", pD: 25, cD: 0.25 }
+        { name: "Power Oats & Eggs", p: "Whole Eggs", c: "Dry Oats", v: "Spinach", prep: "Scramble eggs. Prepare oats with water/cinnamon.", pD: 6, cD: 0.4 },
+        { name: "Greek Yogurt Bowl", p: "Greek Yogurt", c: "Mixed Berries", v: "Flax Seeds", prep: "Top yogurt with berries and seeds.", pD: 0.1, cD: 0.15 },
+        { name: "Architect Pancakes", p: "Whey Protein", c: "Mashed Banana", v: "Egg Whites", prep: "Blend all and cook on non-stick skillet.", pD: 25, cD: 0.25 }
     ],
     lunch: [
-        { name: "Lemon Garlic Chicken", p: "Chicken Breast", c: "Cooked Rice", v: "Steamed Broccoli", prep: "Season chicken with lemon juice and garlic powder. Pan-sear until 165°F. Serve over fluffy steamed white or brown rice.", pD: 0.31, cD: 0.28 },
-        { name: "Lean Taco Bowl", p: "93/7 Ground Beef", c: "Cooked Rice", v: "Peppers & Onions", prep: "Brown the beef with cumin and chili powder. Sauté peppers and onions in the same pan. Combine with rice and top with salsa.", pD: 0.26, cD: 0.28 },
-        { name: "Turkey Power Plate", p: "Ground Turkey", c: "Quinoa", v: "Zucchini", prep: "Cook turkey with Italian herbs. Prepare quinoa according to package. Roast sliced zucchini with a spray of olive oil.", pD: 0.27, cD: 0.22 }
+        { name: "Lemon Garlic Chicken", p: "Chicken Breast", c: "Cooked Rice", v: "Steamed Broccoli", prep: "Pan-sear seasoned chicken. Serve with rice/veg.", pD: 0.31, cD: 0.28 },
+        { name: "Lean Taco Bowl", p: "93/7 Ground Beef", c: "Cooked Rice", v: "Peppers & Onions", prep: "Brown beef with cumin. Sauté veggies.", pD: 0.26, cD: 0.28 },
+        { name: "Turkey Power Plate", p: "Ground Turkey", c: "Quinoa", v: "Zucchini", prep: "Cook turkey with herbs. Serve with quinoa.", pD: 0.27, cD: 0.22 }
     ],
     dinner: [
-        { name: "Atlantic Salmon", p: "Salmon Fillet", c: "Sweet Potato", v: "Asparagus", prep: "Bake salmon at 400°F (200°C) for 12-15 mins. Poke sweet potato with a fork and microwave for 5 mins. Steam asparagus with lemon.", pD: 0.22, cD: 0.20 },
-        { name: "Steakhouse Plate", p: "Sirloin Steak", c: "Baked Potato", v: "Green Beans", prep: "Grill steak to desired wellness. Bake potato until soft and fluff with a fork. Season beans with garlic salt.", pD: 0.27, cD: 0.20 },
-        { name: "White Fish Stir-Fry", p: "Cod or Tilapia", c: "Rice Noodles", v: "Mixed Stir-fry Veg", prep: "Cut fish into chunks and sauté with ginger/soy sauce. Boil noodles for 3 mins. Toss everything together in a hot wok.", pD: 0.20, cD: 0.25 }
+        { name: "Atlantic Salmon", p: "Salmon Fillet", c: "Sweet Potato", v: "Asparagus", prep: "Bake salmon 15m at 400F. Microwave potato.", pD: 0.22, cD: 0.20 },
+        { name: "Steakhouse Plate", p: "Sirloin Steak", c: "Baked Potato", v: "Green Beans", prep: "Grill steak. Bake and fluff potato.", pD: 0.27, cD: 0.20 },
+        { name: "White Fish Stir-Fry", p: "Cod or Tilapia", c: "Rice Noodles", v: "Mixed Stir-fry Veg", prep: "Sauté fish chunks. Toss with boiled noodles.", pD: 0.20, cD: 0.25 }
     ]
 };
 
-let state = { b: [0, 1], l: [0, 1], d: [0, 1, 2], locks: { b: [false, false], l: [false, false], d: [false, false, false] } };
+// State initialized for 2 Breakfasts, 2 Lunches, 3 Dinners
+let state = { 
+    b: [0, 1], 
+    l: [0, 1], 
+    d: [0, 1, 2], 
+    locks: { 
+        b: [false, false], 
+        l: [false, false], 
+        d: [false, false, false] 
+    } 
+};
 
 function updateAll() {
     const w = parseFloat(document.getElementById('weight').value) || 0;
     const g = parseFloat(document.getElementById('goal').value) || 0;
+    const weeks = parseFloat(document.getElementById('weeks').value) || 0;
     const age = parseFloat(document.getElementById('age').value) || 30;
-    const ft = parseFloat(document.getElementById('ft').value) || 0;
-    const inch = parseFloat(document.getElementById('in').value) || 0;
+    const ft = parseFloat(document.getElementById('ft').value) || 5;
+    const inch = parseFloat(document.getElementById('in').value) || 10;
     const act = parseFloat(document.getElementById('activity').value);
+    const gender = document.getElementById('gender').value;
     const unit = document.getElementById('unitMode').value;
     const pMode = document.getElementById('pMode').value;
     const hasShake = document.getElementById('addShake').checked;
@@ -185,40 +184,33 @@ function updateAll() {
     document.getElementById('shakeMacroContainer').style.display = hasShake ? 'flex' : 'none';
 
     if (w > 0) {
-        const heightCm = (ft * 30.48) + (inch * 2.54) || 178;
-        const bmr = (10 * (w / 2.205)) + (6.25 * heightCm) - (5 * age) + 5;
-        const tdee = Math.round(bmr * act);
+        const hCm = (ft * 30.48) + (inch * 2.54);
+        let bmr = (10 * (w / 2.205)) + (6.25 * hCm) - (5 * age);
+        bmr = (gender === 'male') ? bmr + 5 : bmr - 161;
+        const tdee = bmr * act;
         
         let targetCal = tdee;
-        if (g > 0 && g < w) targetCal -= 500;
-        else if (g > w) targetCal += 300;
+        if (g !== w && weeks > 0) targetCal = tdee + ((g - w) * 3500 / (weeks * 7));
+        else if (g < w) targetCal -= 500;
+        
+        targetCal = Math.max(targetCal, 1200);
 
         let totalP = (pMode === 'custom') ? (parseFloat(document.getElementById('customP').value) || w) : (g || w);
-
-        let foodP = totalP;
-        let foodCal = targetCal;
-        let sP = 0, sCal = 0;
-
-        if (hasShake) {
-            sP = parseFloat(document.getElementById('shakeP').value) || 0;
-            sCal = parseFloat(document.getElementById('shakeCal').value) || 0;
-            foodP -= sP;
-            foodCal -= sCal;
-        }
+        let sP = hasShake ? (parseFloat(document.getElementById('shakeP').value) || 25) : 0;
+        let sCal = hasShake ? (parseFloat(document.getElementById('shakeCal').value) || 120) : 0;
 
         const fat = (targetCal * 0.25) / 9;
         const totalC = (targetCal - (totalP * 4) - (fat * 9)) / 4;
         
-        // Subtract approximate carb value of shake (standard isolate is ~2g)
-        let foodC = hasShake ? totalC - 2 : totalC;
-
         document.getElementById('statusReport').innerHTML = `
-            <div>CALORIES: <span class="macro-val">${targetCal}</span></div>
+            <div>CALORIES: <span class="macro-val">${Math.round(targetCal)}</span></div>
             <div>PROTEIN: <span class="macro-val">${Math.round(totalP)}g</span></div>
             <div>CARBS: <span class="macro-val">${Math.round(totalC)}g</span></div>
             <div>FAT: <span class="macro-val">${Math.round(fat)}g</span></div>
         `;
-        renderGrid(foodP/4, foodC/4, unit, hasShake, sP, sCal);
+
+        // Calculate portions based on a 3-meal distribution (average of the display slots)
+        renderGrid((totalP - sP)/3, (totalC - (hasShake ? 2 : 0))/3, unit, hasShake, sP, sCal);
     }
 }
 
@@ -226,85 +218,77 @@ function renderGrid(p, c, unit, hasShake, sP, sCal) {
     let html = '';
     
     if (hasShake) {
-        html += `
-            <div class="cat-label">Daily Supplement</div>
-            <div class="meal-card supplement">
-                <div class="meal-title"><span>Protein Shake</span><span>✅</span></div>
-                <div class="ing-box"><b>Logged:</b> ${sP}g Protein | ${sCal} Calories</div>
-                <div class="prep-box" style="font-size:0.75rem">Food portions below have been reduced to accommodate these supplement macros.</div>
-            </div>
-        `;
+        html += `<div class="cat-label">Daily Supplement</div><div class="meal-card supplement"><b>Protein Shake:</b> ${sP}g Protein | ${sCal} Cal | ~2g Carb</div>`;
     }
 
-    const sections = [
-        {id:'b', label:'Breakfast Options', key:'breakfast', list:state.b},
-        {id:'l', label:'Lunch Options', key:'lunch', list:state.l},
-        {id:'d', label:'Dinner Options', key:'dinner', list:state.d}
+    const secs = [
+        {id:'b', l:'Breakfast Options (Choose One)', k:'breakfast', list:state.b}, 
+        {id:'l', l:'Lunch Options (Choose One)', k:'lunch', list:state.l}, 
+        {id:'d', l:'Dinner Options (Choose One)', k:'dinner', list:state.d}
     ];
 
-    sections.forEach(sec => {
-        html += `<div class="cat-label">${sec.label}</div>`;
-        sec.list.forEach((dbIdx, i) => {
-            const meal = db[sec.key][dbIdx];
-            const locked = state.locks[sec.id][i];
-            let pDisp = unit === 'grams' ? `${Math.round(p/meal.pD)}g` : convertToCups(p, meal.p);
-            let cDisp = unit === 'grams' ? `${Math.round(c/meal.cD)}g` : convertToCups(c, meal.c);
+    secs.forEach(s => {
+        html += `<div class="cat-label">${s.l}</div>`;
+        s.list.forEach((idx, i) => {
+            const m = db[s.k][idx];
+            const lk = state.locks[s.id][i];
+            
+            let pDisp = unit === 'grams' ? Math.round(p/m.pD)+'g' : convertToCups(p, m.p);
+            let cDisp = unit === 'grams' ? Math.round(c/m.cD)+'g' : convertToCups(c, m.c);
 
-            html += `
-                <div class="meal-card ${locked ? 'locked' : ''}">
-                    <div class="meal-title"><span>${meal.name}</span><span>${locked ? '🔒' : ''}</span></div>
-                    <div class="ing-box"><b>Protein:</b> <span class="qty">${pDisp}</span> ${meal.p}</div>
-                    <div class="ing-box"><b>Carb:</b> <span class="qty">${cDisp}</span> ${meal.c}</div>
-                    <div class="ing-box"><b>Veggie:</b> <span class="qty">1.5 Cups</span> ${meal.v}</div>
-                    <div class="prep-box"><b>Chef's Note:</b> ${meal.prep}</div>
-                    <div class="controls">
-                        <button class="btn-c" onclick="swapSlot('${sec.id}', ${i})">↻ Swap</button>
-                        <button class="btn-c ${locked ? 'l-active' : ''}" onclick="toggleLock('${sec.id}', ${i})">${locked ? 'Unlock' : 'Save'}</button>
-                    </div>
-                </div>`;
+            html += `<div class="meal-card ${lk?'locked':''}">
+                <div class="meal-title"><span>${m.name}</span><span>${lk?'🔒':''}</span></div>
+                <div class="ing-box"><b>Protein Source:</b> <span class="qty">${pDisp}</span> ${m.p}</div>
+                <div class="ing-box"><b>Carb Source:</b> <span class="qty">${cDisp}</span> ${m.c}</div>
+                <div class="ing-box"><b>Veggie:</b> <span class="qty">1.5 Cups</span> ${m.v}</div>
+                <div class="prep-box"><b>Instructions:</b> ${m.prep}</div>
+                <div class="controls">
+                    <button class="btn-c" onclick="swap('${s.id}',${i})">↻ Swap</button>
+                    <button class="btn-c ${lk?'l-active':''}" onclick="lkS('${s.id}',${i})">${lk?'Unlock':'Save'}</button>
+                </div>
+            </div>`;
         });
     });
     document.getElementById('menuContainer').innerHTML = html;
 }
 
-function convertToCups(grams, type) {
-    if (type.includes("Eggs")) return `${Math.max(1, Math.round(grams/6))} Large`;
-    if (type.includes("Rice")) return `${(grams/28/5.5).toFixed(1)} Cups`;
-    if (type.includes("Oats")) return `${(grams/0.4/80).toFixed(1)} Cups`;
-    if (type.includes("Chicken") || type.includes("Beef") || type.includes("Steak") || type.includes("Turkey")) return `${(grams/0.31/140).toFixed(1)} Cups (Cooked)`;
-    if (type.includes("Yogurt")) return `${(grams/0.1/240).toFixed(1)} Cups`;
-    if (type.includes("Banana")) return `${Math.round(grams/0.25/120)} Medium`;
-    return `${Math.round(grams)}g`; 
+function convertToCups(g, t) {
+    if (t.includes("Eggs")) return Math.max(1, Math.round(g/6)) + " Whole";
+    if (t.includes("Rice")) return (g/28/5.5).toFixed(1) + " Cups";
+    if (t.includes("Oats")) return (g/0.4/80).toFixed(1) + " Cups";
+    if (t.includes("Chicken")||t.includes("Beef")||t.includes("Turkey")) return (g/0.31/140).toFixed(1) + " Cups";
+    if (t.includes("Yogurt")) return (g/0.1/240).toFixed(1) + " Cups";
+    return Math.round(g) + "g";
 }
 
-function swapSlot(cat, i) { 
-    const key = cat === 'b' ? 'breakfast' : cat === 'l' ? 'lunch' : 'dinner';
-    state[cat][i] = (state[cat][i] + 1) % db[key].length; 
+function swap(c, i) { 
+    const k = c==='b'?'breakfast':c==='l'?'lunch':'dinner'; 
+    state[c][i] = (state[c][i]+1)%db[k].length; 
     updateAll(); 
 }
 
-function toggleLock(cat, i) { 
-    state.locks[cat][i] = !state.locks[cat][i]; 
+function lkS(c, i) { 
+    state.locks[c][i] = !state.locks[c][i]; 
     updateAll(); 
 }
 
-function randomizeAll() {
-    ['b','l','d'].forEach(c => state[c].forEach((_,i) => { if(!state.locks[c][i]) swapSlot(c,i) }));
+function randomizeAll() { 
+    ['b','l','d'].forEach(c => state[c].forEach((_,i) => { if(!state.locks[c][i]) swap(c,i) })); 
 }
 
-function copyToClipboard() {
+function copyToClipboard() { 
     const content = document.getElementById('menuContainer').innerText;
-    navigator.clipboard.writeText("PHYSIQUE ARCHITECT WEEKLY PLAN\n\n" + content);
-    alert("Plan copied to clipboard!");
+    navigator.clipboard.writeText("PHYSIQUE ARCHITECT PLAN\n\n" + content); 
+    alert("Plan copied to clipboard!"); 
 }
 
-function exportToDoc() {
+function exportToDoc() { 
     const content = document.getElementById('menuContainer').innerText;
-    const blob = new Blob([content], { type: 'application/msword' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Physique_Architect_Weekly_Plan.doc';
-    link.click();
+    const b = new Blob([content], {type:'application/msword'}); 
+    const a = document.createElement('a'); 
+    a.href = URL.createObjectURL(b); 
+    a.download = 'Physique_Architect_Plan.doc'; 
+    a.click(); 
 }
 
 window.onload = updateAll;
