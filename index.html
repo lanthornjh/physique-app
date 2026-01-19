@@ -3,225 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Physique Architect | Full Plan</title>
+    <title>Physique Architect | Chef Edition</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #cfd8dc; display: flex; justify-content: center; padding: 20px; color: #263238; }
-        .card { background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); width: 100%; max-width: 600px; border-top: 8px solid #455a64; }
-        h2 { color: #263238; text-align: center; margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
-        .subtitle { text-align: center; color: #78909c; font-size: 0.9rem; margin-bottom: 25px; }
+        :root { --primary: #455a64; --accent: #81c784; --bg: #cfd8dc; --text: #263238; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 15px; color: var(--text); }
+        .card { background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 650px; border-top: 8px solid var(--primary); }
         
-        .input-row { display: flex; gap: 15px; margin-bottom: 15px; }
-        .input-group { flex: 1; margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-size: 0.75rem; font-weight: 700; color: #546e7a; text-transform: uppercase; }
-        input, select { width: 100%; padding: 12px; border: 2px solid #eceff1; border-radius: 8px; box-sizing: border-box; background: #fcfcfc; font-size: 1rem; color: #263238; }
+        h2 { text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #78909c; font-size: 0.85rem; margin-bottom: 20px; }
         
-        /* Info Icon Styles */
-        .info-link { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #78909c; color: white; border-radius: 50%; font-size: 11px; font-weight: bold; text-decoration: none; margin-left: 5px; vertical-align: middle; transition: 0.2s; }
-        .info-link:hover { background: #455a64; transform: scale(1.1); }
+        /* Export Toolbar */
+        .export-tools { display: flex; gap: 8px; margin-bottom: 20px; }
+        .btn-tool { flex: 1; padding: 10px; border: none; border-radius: 8px; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-tool:active { transform: scale(0.98); }
 
-        .status-box { background: #37474f; color: #eceff1; padding: 20px; border-radius: 10px; margin-bottom: 25px; border-left: 5px solid #81c784; }
-        
-        .meal-section { margin-top: 25px; border-top: 2px solid #eceff1; padding-top: 20px; }
-        .meal-category { background: #455a64; color: white; padding: 8px 15px; border-radius: 6px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
-        
-        .meal-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 12px; }
-        .meal-title { font-weight: 800; color: #37474f; margin-bottom: 5px; display: block; }
-        .ingredients { font-size: 0.95rem; color: #546e7a; line-height: 1.4; }
-        .qty { color: #2d5a27; font-weight: bold; border-bottom: 1px dashed #81c784; }
+        /* Input Styling */
+        .input-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .input-group { flex: 1; min-width: 120px; }
+        label { display: block; font-size: 0.65rem; font-weight: 800; color: #546e7a; text-transform: uppercase; margin-bottom: 3px; }
+        input, select { width: 100%; padding: 10px; border: 2px solid #eceff1; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
 
-        .dining-out { background: #fff3e0; border: 1px solid #ffe0b2; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 0.9rem; }
-        .btn-link { color: #81c784; text-decoration: none; cursor: pointer; background: #263238; border-radius: 4px; padding: 3px 10px; font-size: 0.7rem; border: 1px solid #81c784; margin-left: 10px; font-weight: bold; }
+        /* Macro Status Box */
+        .status-box { background: #37474f; color: #eceff1; padding: 18px; border-radius: 10px; margin: 20px 0; border-left: 5px solid var(--accent); display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem; }
+        .macro-val { font-weight: 800; color: var(--accent); }
+
+        .btn-main { width: 100%; background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-bottom: 20px; text-transform: uppercase; transition: 0.2s; }
+        
+        /* Meal Cards */
+        .cat-label { margin-top: 20px; font-weight: 800; color: var(--primary); text-transform: uppercase; font-size: 0.8rem; }
+        .meal-card { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; padding: 18px; margin-top: 10px; }
+        .meal-card.locked { border: 2px solid var(--accent); background: #f1f8f1; }
+        .meal-title { font-weight: 800; font-size: 1.05rem; color: #37474f; border-bottom: 2px solid #eceff1; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        
+        .ing-box { font-size: 0.9rem; margin-bottom: 4px; }
+        .prep-box { font-size: 0.8rem; background: #eceff1; padding: 12px; border-radius: 6px; color: #546e7a; font-style: italic; margin-top: 12px; line-height: 1.4; border-left: 3px solid #cfd8dc; }
+        .qty { color: #2d5a27; font-weight: 800; }
+        
+        .controls { display: flex; gap: 8px; margin-top: 12px; }
+        .btn-c { flex: 1; background: white; border: 1px solid #cfd8dc; padding: 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600; }
+        .btn-c.l-active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .flavor-guide { background: #37474f; color: white; padding: 15px; border-radius: 10px; margin-top: 30px; font-size: 0.8rem; }
+        .flavor-guide h4 { margin-top: 0; color: var(--accent); text-transform: uppercase; }
+
+        @media print { .export-tools, .btn-main, .controls, .input-row, select { display: none !important; } .card { box-shadow: none; border: none; width: 100%; } }
     </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="export-tools">
+        <button class="btn-tool" style="background:#ef5350" onclick="window.print()">📄 Save PDF</button>
+        <button class="btn-tool" style="background:#4285f4" onclick="exportToDoc()">📝 Google Doc</button>
+        <button class="btn-tool" style="background:#546e7a" onclick="copyToClipboard()">📋 Copy Text</button>
+    </div>
+
     <h2>Physique Architect</h2>
-    <div id="greeting" class="subtitle">Complete Meal Management System</div>
-    
-    <div id="statusReport" class="status-box">Awaiting your physical metrics...</div>
+    <div class="subtitle">Chef Edition: Integrated Saving & Multi-Unit Prep</div>
 
-    <div class="input-group">
-        <label>Your Name</label>
-        <input type="text" id="userName" placeholder="Architect Name" oninput="runApp()">
+    <div class="input-row">
+        <div class="input-group"><label>Name</label><input type="text" id="userName" placeholder="Architect" oninput="updateAll()"></div>
+        <div class="input-group"><label>Weight (lbs)</label><input type="number" id="weight" placeholder="180" oninput="updateAll()"></div>
+        <div class="input-group"><label>Goal (lbs)</label><input type="number" id="goal" placeholder="170" oninput="updateAll()"></div>
     </div>
 
     <div class="input-row">
-        <div class="input-group">
-            <label>Current Weight (lbs)</label>
-            <input type="number" id="weight" oninput="runApp()">
-        </div>
-        <div class="input-group">
-            <label>Goal Weight (lbs)</label>
-            <input type="number" id="goalWeight" oninput="runApp()">
-        </div>
-    </div>
-
-    <div class="input-row">
-        <div class="input-group">
-            <label>Height (Ft/In)</label>
-            <div style="display:flex; gap:5px;">
-                <input type="number" id="hFt" placeholder="Ft" oninput="runApp()">
-                <input type="number" id="hIn" placeholder="In" oninput="runApp()">
-            </div>
-        </div>
-        <div class="input-group">
-            <label>Age</label>
-            <input type="number" id="age" oninput="runApp()">
-        </div>
-    </div>
-
-    <div class="input-row">
+        <div class="input-group"><label>Age</label><input type="number" id="age" placeholder="30" oninput="updateAll()"></div>
         <div class="input-group">
             <label>Activity Level</label>
-            <select id="activity" onchange="runApp()">
+            <select id="activity" onchange="updateAll()">
                 <option value="1.2">Baseline (0 days/week)</option>
-                <option value="1.375">Light (1–2 days/week)</option>
-                <option value="1.55" selected>Moderate (3–5 days/week)</option>
-                <option value="1.725">High (6–7 days/week)</option>
+                <option value="1.375">Light (1-2 days/week)</option>
+                <option value="1.55" selected>Moderate (3-5 days/week)</option>
+                <option value="1.725">High (6-7 days/week)</option>
                 <option value="1.9">Elite (2x daily)</option>
             </select>
         </div>
-    </div>
-
-    <div class="input-row" style="background: #f0f4f7; padding: 15px; border-radius: 8px; border: 1px solid #cfd8dc;">
         <div class="input-group">
-            <label>
-                Protein Strategy
-                <a href="https://www.healthline.com/nutrition/how-protein-can-help-you-lose-weight" target="_blank" class="info-link" title="Why protein is vital for weight management">!</a>
-            </label>
-            <select id="proteinMode" onchange="runApp()">
-                <option value="auto">Auto (1:1 Ratio per lb)</option>
-                <option value="custom">Manual Entry</option>
+            <label>Measurement Unit</label>
+            <select id="unitMode" onchange="updateAll()">
+                <option value="grams">Grams (Weight)</option>
+                <option value="cups">Cups / Pieces (Volume)</option>
             </select>
         </div>
-        <div class="input-group" id="customProtGroup" style="display:none;">
-            <label>Custom Protein (g)</label>
-            <input type="number" id="customProtein" placeholder="e.g. 200" oninput="runApp()">
-        </div>
     </div>
 
-    <div id="mealPlanContainer"></div>
+    <div id="statusReport" class="status-box">Enter your stats to build your custom menu.</div>
+
+    <button class="btn-main" onclick="randomizeAll()">Shuffle Unlocked Meals</button>
+    
+    <div id="menuContainer"></div>
+
+    <div class="flavor-guide">
+        <h4>Free Flavor Guide (Zero Calorie)</h4>
+        <b>Mexican:</b> Cumin, Smoked Paprika, Garlic Powder, Lime.<br>
+        <b>Italian:</b> Dried Oregano, Basil, Red Pepper Flakes, Balsamic.<br>
+        <b>Asian:</b> Ground Ginger, Garlic, Soy Sauce (Low Sodium), Sriracha.
+    </div>
 </div>
 
 <script>
-window.onload = function() {
-    ['userName', 'weight', 'goalWeight', 'hFt', 'hIn', 'age', 'activity', 'proteinMode', 'customProtein'].forEach(f => {
-        const val = localStorage.getItem(f);
-        if (val) document.getElementById(f).value = val;
-    });
-    runApp();
+const db = {
+    breakfast: [
+        { name: "Power Oats & Eggs", p: "Whole Eggs", c: "Dry Oats", v: "Spinach", prep: "Scramble the eggs with salt/pepper. Prepare oats with water and a dash of cinnamon. Serve separately or mix for a savory oat bowl.", pD: 6, cD: 0.4 },
+        { name: "Greek Yogurt Bowl", p: "Greek Yogurt", c: "Mixed Berries", v: "Flax Seeds (1 tbsp)", prep: "Measure yogurt into a bowl. Top with fresh or thawed berries. Stir in flax seeds. Use zero-cal Stevia if extra sweetness is needed.", pD: 0.1, cD: 0.15 },
+        { name: "Architect Pancakes", p: "Whey Protein", c: "Mashed Banana", v: "Egg Whites", prep: "Blend the protein powder, banana, and egg whites. Pour onto a non-stick skillet over medium heat. Flip when bubbles form.", pD: 25, cD: 0.25 }
+    ],
+    lunch: [
+        { name: "Lemon Garlic Chicken", p: "Chicken Breast", c: "Cooked Rice", v: "Steamed Broccoli", prep: "Season chicken with lemon juice and garlic powder. Pan-sear until 165°F. Serve over fluffy steamed white or brown rice.", pD: 0.31, cD: 0.28 },
+        { name: "Lean Taco Bowl", p: "93/7 Ground Beef", c: "Cooked Rice", v: "Peppers & Onions", prep: "Brown the beef with cumin and chili powder. Sauté peppers and onions in the same pan. Combine with rice and top with salsa.", pD: 0.26, cD: 0.28 },
+        { name: "Turkey Power Plate", p: "Ground Turkey", c: "Quinoa", v: "Zucchini", prep: "Cook turkey with Italian herbs. Prepare quinoa according to package. Roast sliced zucchini with a spray of olive oil.", pD: 0.27, cD: 0.22 }
+    ],
+    dinner: [
+        { name: "Atlantic Salmon", p: "Salmon Fillet", c: "Sweet Potato", v: "Asparagus", prep: "Bake salmon at 400°F (200°C) for 12-15 mins. Poke sweet potato with a fork and microwave for 5 mins. Steam asparagus with lemon.", pD: 0.22, cD: 0.20 },
+        { name: "Steakhouse Plate", p: "Sirloin Steak", c: "Baked Potato", v: "Green Beans", prep: "Grill steak to desired wellness. Bake potato until soft and fluff with a fork. Season beans with garlic salt.", pD: 0.27, cD: 0.20 },
+        { name: "White Fish Stir-Fry", p: "Cod or Tilapia", c: "Rice Noodles", v: "Mixed Stir-fry Veg", prep: "Cut fish into chunks and sauté with ginger/soy sauce. Boil noodles for 3 mins. Toss everything together in a hot wok.", pD: 0.20, cD: 0.25 }
+    ]
 };
 
-function setGoal(val) {
-    document.getElementById('goalWeight').value = val;
-    runApp();
-}
+let state = { b: [0, 1], l: [0, 1], d: [0, 1, 2], locks: { b: [false, false], l: [false, false], d: [false, false, false] } };
 
-function runApp() {
-    const fields = ['userName', 'weight', 'goalWeight', 'hFt', 'hIn', 'age', 'activity', 'proteinMode', 'customProtein'];
-    const v = {};
-    fields.forEach(f => {
-        v[f] = document.getElementById(f).value;
-        localStorage.setItem(f, v[f]); 
-    });
-
-    // Show/Hide Custom Protein input
-    document.getElementById('customProtGroup').style.display = (v.proteinMode === 'custom') ? 'block' : 'none';
-
-    const weight = parseFloat(v.weight);
-    const goal = parseFloat(v.goalWeight);
-    const age = parseFloat(v.age);
-    const hFt = parseFloat(v.hFt);
-    const hIn = parseFloat(v.hIn);
-    const act = parseFloat(v.activity);
-
-    if (weight > 0 && hFt > 0 && age > 0) {
-        const totalInches = (hFt * 12) + (hIn || 0);
-        const healthyBaseline = Math.round(22 * (totalInches * totalInches) / 703);
-        const bmr = (10 * (weight / 2.205)) + (6.25 * (totalInches * 2.54)) - (5 * age) + 5;
+function updateAll() {
+    const w = parseFloat(document.getElementById('weight').value) || 0;
+    const g = parseFloat(document.getElementById('goal').value) || 0;
+    const a = parseFloat(document.getElementById('age').value) || 0;
+    const act = parseFloat(document.getElementById('activity').value);
+    const unit = document.getElementById('unitMode').value;
+    
+    if (w > 0) {
+        const bmr = (10 * (w / 2.205)) + (6.25 * 177) - (5 * a) + 5;
         const tdee = Math.round(bmr * act);
+        let target = tdee;
+        if (g > 0 && g < w) target -= 500;
+        else if (g > w) target += 300;
 
-        let phase = "Maintenance";
-        let targetCals = tdee;
-        if (goal < weight) { phase = "Fat Loss"; targetCals = tdee - 500; }
-        else if (goal > weight) { phase = "Muscle Gain"; targetCals = tdee + 300; }
-
-        if (v.userName) document.getElementById('greeting').innerText = `Architect: ${v.userName}`;
-        
-        // Protein Logic Selection
-        let protTotal = (v.proteinMode === 'auto') ? (goal || weight) : parseFloat(v.customProtein);
-        if (!protTotal) protTotal = weight; // Fallback
+        const p = g || w;
+        const f = (target * 0.25) / 9;
+        const c = (target - (p * 4) - (f * 9)) / 4;
 
         document.getElementById('statusReport').innerHTML = `
-            Healthy Baseline: <strong>${healthyBaseline} lbs</strong> <button class="btn-link" onclick="setGoal(${healthyBaseline})">ADOPT</button><br>
-            Daily Target: <strong>${targetCals} calories</strong><br>
-            Protein Target: <strong>${protTotal}g</strong> (${v.proteinMode === 'auto' ? '1:1 Ratio' : 'Custom'})
+            <div>CALORIES: <span class="macro-val">${target}</span></div>
+            <div>PROTEIN: <span class="macro-val">${Math.round(p)}g</span></div>
+            <div>CARBS: <span class="macro-val">${Math.round(c)}g</span></div>
+            <div>FAT: <span class="macro-val">${Math.round(f)}g</span></div>
         `;
-
-        // Macro Calculations
-        const fatTotal = (targetCals * 0.25) / 9;
-        const carbTotal = (targetCals - (protTotal * 4) - (fatTotal * 9)) / 4;
-        const pM = (protTotal / 4).toFixed(0);
-        const cM = (carbTotal / 4).toFixed(0);
-
-        // Conversion math
-        const riceG = (cM / 0.28).toFixed(0);
-        const potG = (cM / 0.20).toFixed(0);
-        const oatG = (cM / 0.60).toFixed(0);
-        const chickenG = (pM / 0.31).toFixed(0);
-        const beefG = (pM / 0.26).toFixed(0);
-        const eggCount = (pM / 6).toFixed(1);
-
-        document.getElementById('mealPlanContainer').innerHTML = `
-            <div class="meal-section">
-                <div class="meal-category">Breakfast Options</div>
-                <div class="meal-card">
-                    <span class="meal-title">1. Classic Power Start</span>
-                    <span class="ingredients"><span class="qty">${eggCount}</span> Large Eggs + <span class="qty">${oatG}g</span> Dry Oats</span>
-                </div>
-                <div class="meal-card">
-                    <span class="meal-title">2. Quick Yogurt Bowl</span>
-                    <span class="ingredients"><span class="qty">${(pM/10*100).toFixed(0)}g</span> Non-fat Greek Yogurt + <span class="qty">${(cM/0.15).toFixed(0)}g</span> Berries</span>
-                </div>
-                <div class="meal-card">
-                    <span class="meal-title">3. Architect Pancakes</span>
-                    <span class="ingredients"><span class="qty">1.5 scoops</span> Whey + <span class="qty">${(cM/0.25).toFixed(0)}g</span> Mashed Banana</span>
-                </div>
-
-                <div class="meal-category">Lunch Options (Great for Batch Cooking)</div>
-                <div class="meal-card">
-                    <span class="meal-title">1. Chicken & Rice Standard</span>
-                    <span class="ingredients"><span class="qty">${chickenG}g</span> Cooked Chicken + <span class="qty">${riceG}g</span> Cooked Rice + Green Veggies</span>
-                </div>
-                <div class="meal-card">
-                    <span class="meal-title">2. Lean Beef & Potato</span>
-                    <span class="ingredients"><span class="qty">${beefG}g</span> Extra Lean Beef + <span class="qty">${potG}g</span> Potato/Yam</span>
-                </div>
-
-                <div class="meal-category">Dinner Options</div>
-                <div class="meal-card">
-                    <span class="meal-title">1. Lean & Green (Fish)</span>
-                    <span class="ingredients"><span class="qty">${(pM/0.20).toFixed(0)}g</span> White Fish + <span class="qty">${riceG}g</span> Rice + Asparagus</span>
-                </div>
-                <div class="meal-card">
-                    <span class="meal-title">2. Turkey Stir-fry</span>
-                    <span class="ingredients"><span class="qty">${beefG}g</span> Ground Turkey + <span class="qty">${riceG}g</span> Rice + Peppers</span>
-                </div>
-                <div class="meal-card">
-                    <span class="meal-title">3. Steak & Baked Potato</span>
-                    <span class="ingredients"><span class="qty">${beefG}g</span> Sirloin Steak + <span class="qty">${potG}g</span> Potato + Side Salad</span>
-                </div>
-
-                <div class="dining-out">
-                    <strong>Tonight's Dining Out Strategy:</strong><br>
-                    Choose Lean Protein (Grilled) + Double Veggies + Small starch side. Avoid sauces and bread baskets.
-                </div>
-            </div>
-        `;
+        renderGrid(p/4, c/4, unit);
     }
 }
-</script>
 
+function renderGrid(p, c, unit) {
+    let html = '';
+    const sections = [
+        {id:'b', label:'Breakfast Options', key:'breakfast', list:state.b},
+        {id:'l', label:'Lunch Options', key:'lunch', list:state.l},
+        {id:'d', label:'Dinner Options', key:'dinner', list:state.d}
+    ];
+
+    sections.forEach(sec => {
+        html += `<div class="cat-label">${sec.label}</div>`;
+        sec.list.forEach((dbIdx, i) => {
+            const meal = db[sec.key][dbIdx];
+            const locked = state.locks[sec.id][i];
+            
+            let pDisp = unit === 'grams' ? `${Math.round(p/meal.pD)}g` : convertToCups(p, meal.p);
+            let cDisp = unit === 'grams' ? `${Math.round(c/meal.cD)}g` : convertToCups(c, meal.c);
+
+            html += `
+                <div class="meal-card ${locked ? 'locked' : ''}">
+                    <div class="meal-title">
+                        <span>${meal.name}</span>
+                        <span>${locked ? '🔒' : ''}</span>
+                    </div>
+                    <div class="ing-box"><b>Protein:</b> <span class="qty">${pDisp}</span> ${meal.p}</div>
+                    <div class="ing-box"><b>Carb:</b> <span class="qty">${cDisp}</span> ${meal.c}</div>
+                    <div class="ing-box"><b>Veggie:</b> <span class="qty">1.5 Cups</span> ${meal.v}</div>
+                    <div class="prep-box"><b>Chef's Note:</b> ${meal.prep}</div>
+                    <div class="controls">
+                        <button class="btn-c" onclick="swapSlot('${sec.id}', ${i})">↻ Swap</button>
+                        <button class="btn-c ${locked ? 'l-active' : ''}" onclick="toggleLock('${sec.id}', ${i})">${locked ? 'Unlock' : 'Save'}</button>
+                    </div>
+                </div>
+            `;
+        });
+    });
+    document.getElementById('menuContainer').innerHTML = html;
+}
+
+function convertToCups(grams, type) {
+    if (type.includes("Eggs")) return `${Math.round(grams/6)} Large`;
+    if (type.includes("Rice")) return `${(grams/28/5.5).toFixed(1)} Cups`;
+    if (type.includes("Oats")) return `${(grams/0.4/80).toFixed(1)} Cups`;
+    if (type.includes("Chicken") || type.includes("Beef") || type.includes("Steak") || type.includes("Turkey")) return `${(grams/0.31/140).toFixed(1)} Cups (Cooked)`;
+    if (type.includes("Yogurt")) return `${(grams/0.1/240).toFixed(1)} Cups`;
+    if (type.includes("Banana")) return `${Math.round(grams/0.25/120)} Medium`;
+    return `${Math.round(grams)}g`; 
+}
+
+function swapSlot(cat, i) { 
+    const key = cat === 'b' ? 'breakfast' : cat === 'l' ? 'lunch' : 'dinner';
+    state[cat][i] = (state[cat][i] + 1) % db[key].length; 
+    updateAll(); 
+}
+
+function toggleLock(cat, i) { 
+    state.locks[cat][i] = !state.locks[cat][i]; 
+    updateAll(); 
+}
+
+function randomizeAll() {
+    ['b','l','d'].forEach(c => state[c].forEach((_,i) => { if(!state.locks[c][i]) swapSlot(c,i) }));
+}
+
+function copyToClipboard() {
+    const content = document.getElementById('menuContainer').innerText;
+    navigator.clipboard.writeText("PHYSIQUE ARCHITECT WEEKLY PLAN\n\n" + content);
+    alert("Plan copied to clipboard!");
+}
+
+function exportToDoc() {
+    const content = document.getElementById('menuContainer').innerText;
+    const blob = new Blob([content], { type: 'application/msword' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'Physique_Architect_Weekly_Plan.doc';
+    link.click();
+}
+
+window.onload = updateAll;
+</script>
 </body>
 </html>
